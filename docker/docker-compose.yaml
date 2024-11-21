@@ -1,0 +1,31 @@
+
+services:
+  bbdd:
+    image: zara-mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: enti
+      MARIADB_DATABASE: tascaoriol
+    deploy:
+      placement:
+        constraints: [node.role==worker]
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    deploy:
+      placement:
+        constraints: [node.role==worker]
+
+  web:
+    image: carles-php 
+    ports:
+      - 5656:80
+    volumes:
+      - ./html:/var/www/html  # Asegúrate de que esta ruta sea válida
+    deploy:
+      placement:
+        constraints: [node.role==manager]
+
